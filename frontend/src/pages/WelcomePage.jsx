@@ -3,6 +3,104 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { fetchProtected } from '../services/authService'
 
+// Certification data for 2026 - static constant
+const CERTIFICATION_DATA_2026 = [
+  {
+    id: 1,
+    name: 'Cloud and AI Security Engineer Associate',
+    code: 'SC-500',
+    status: 'new',
+    description: 'New certification expanding Azure Security Engineer role to include cloud and AI model protection.',
+    availableDate: 'July 2026',
+    icon: 'shield'
+  },
+  {
+    id: 2,
+    name: 'Microsoft 365 Collaboration Communications Systems Engineer',
+    code: 'M365-CCSE',
+    status: 'updated',
+    description: 'Added for Microsoft Teams specialization to address retiring technical assessments.',
+    availableDate: 'Available now',
+    icon: 'users'
+  },
+  {
+    id: 3,
+    name: 'Copilot and Agent Administration Fundamentals',
+    code: 'Copilot-Admin',
+    status: 'new',
+    description: 'New intermediate skilling option for Modern Work Solutions Partner designation.',
+    availableDate: 'Available now',
+    icon: 'sparkles'
+  },
+  {
+    id: 4,
+    name: 'GitHub Certifications Suite',
+    code: 'GitHub-Suite',
+    status: 'updated',
+    description: 'GitHub Actions, Administration, Advanced Security, and Copilot certifications added to Digital & App Innovation specializations.',
+    availableDate: 'Available now',
+    icon: 'code'
+  }
+]
+
+// Helper functions for certification rendering
+const getIconSvg = (iconType) => {
+  switch (iconType) {
+    case 'shield':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      )
+    case 'users':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      )
+    case 'sparkles':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 3v6m0 6v6M3 12h6m6 0h6" />
+        </svg>
+      )
+    case 'code':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
+const getIconColor = (status) => {
+  switch (status) {
+    case 'new':
+      return 'welcome-card-icon-green'
+    case 'updated':
+      return 'welcome-card-icon-blue'
+    default:
+      return 'welcome-card-icon-tertiary'
+  }
+}
+
+const getStatusBadgeText = (status) => {
+  switch (status) {
+    case 'new':
+      return 'Nuevo en 2026'
+    case 'updated':
+      return 'Actualizado'
+    default:
+      return 'Disponible'
+  }
+}
+
 export default function WelcomePage() {
   const { usuario, token, logout } = useAuth()
   const navigate = useNavigate()
@@ -164,6 +262,82 @@ export default function WelcomePage() {
             El token se almacena en <code>sessionStorage</code> y se elimina automáticamente al cerrar la pestaña del navegador. No se persiste entre sesiones.
           </p>
         </div>
+
+        {/* Microsoft 2026 Certifications Section */}
+        <section className="certifications-section">
+          <div className="certifications-header">
+            <div>
+              <p className="eyebrow">OPORTUNIDADES DE DESARROLLO</p>
+              <h2 className="section-title">Certificaciones Microsoft 2026</h2>
+            </div>
+            <p className="section-subtitle">
+              Explora las nuevas certificaciones y actualizaciones de Microsoft disponibles en 2026. Construidas con información obtenida del Microsoft Documentation Server.
+            </p>
+          </div>
+
+          <div className="certifications-grid">
+            {CERTIFICATION_DATA_2026.map((cert) => (
+              <div key={cert.id} className="card certification-card">
+                <div className={`welcome-card-icon-wrap ${getIconColor(cert.status)}`}>
+                  {getIconSvg(cert.icon)}
+                </div>
+                <div className="certification-badge-wrapper">
+                  <p className="card-eyebrow">{cert.code}</p>
+                  <span className={`certification-badge certification-badge-${cert.status}`}>
+                    {getStatusBadgeText(cert.status)}
+                  </span>
+                </div>
+                <h3 className="card-title">{cert.name}</h3>
+                <p className="card-body">
+                  {cert.description}
+                </p>
+                <div className="certification-footer">
+                  <span className="certification-date" aria-label={`Available: ${cert.availableDate}`}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="date-icon">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                      <line x1="16" y1="2" x2="16" y2="6" />
+                      <line x1="8" y1="2" x2="8" y2="6" />
+                      <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                    {cert.availableDate}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Retiring Certifications Notice */}
+          <div className="card retiring-certifications-card">
+            <div className="retiring-header">
+              <div>
+                <p className="card-eyebrow">IMPORTANTE</p>
+                <h3 className="card-title">Certificaciones en proceso de retiro</h3>
+              </div>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <p className="card-body retiring-description">
+              Algunas certificaciones se están retirando en 2026. Azure AI Engineer Associate y Azure Developer Associate se retiran el 30 de junio y 31 de julio respectivamente. Azure Security Engineer Associate (AZ-500) se retira el 31 de agosto. Considera planificar la transición a las nuevas certificaciones como SC-500 para mantener tus credenciales actualizadas.
+            </p>
+            <div className="retiring-dates">
+              <div className="retiring-date-item">
+                <span className="date-label">Junio 30, 2026</span>
+                <span className="date-certs">Azure AI, Dynamics 365</span>
+              </div>
+              <div className="retiring-date-item">
+                <span className="date-label">Julio 31, 2026</span>
+                <span className="date-certs">Azure Developer, D365 CX</span>
+              </div>
+              <div className="retiring-date-item">
+                <span className="date-label">Agosto 31, 2026</span>
+                <span className="date-certs">AZ-500, Power Platform</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   )
