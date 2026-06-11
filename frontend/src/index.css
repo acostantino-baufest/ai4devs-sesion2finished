@@ -690,6 +690,156 @@ body {
 }
 
 /* =========================================================
+   Microsoft 2026 Certifications Section
+   ========================================================= */
+
+.certifications-section {
+  margin-top: var(--space-md);
+}
+
+.certifications-header {
+  margin-bottom: var(--space-md);
+}
+
+.section-title {
+  font-family: var(--font-headline);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  margin-bottom: 12px;
+  margin-top: 8px;
+}
+
+.section-subtitle {
+  font-size: 15px;
+  color: var(--color-muted);
+  line-height: 1.6;
+  max-width: 600px;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.certification-card {
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.certification-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.certification-badge-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.certification-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.certification-badge-new {
+  background-color: #ECFDF5;
+  color: var(--color-primary);
+  border: 1px solid #C6F6D5;
+}
+
+.certification-badge-updated {
+  background-color: #EEF2FF;
+  color: var(--color-secondary);
+  border: 1px solid #C7D2FE;
+}
+
+.certification-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  margin-top: auto;
+}
+
+.certification-date {
+  font-size: 13px;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-icon {
+  font-size: 14px;
+}
+
+/* Retiring Certifications Card */
+.retiring-certifications-card {
+  background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+  border: 1px solid #FCD34D;
+  margin-top: var(--space-sm);
+}
+
+.retiring-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.retiring-header svg {
+  color: #D97706;
+  flex-shrink: 0;
+}
+
+.retiring-description {
+  font-size: 14px;
+  color: #78350F;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.retiring-dates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.retiring-date-item {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+}
+
+.date-label {
+  font-weight: 600;
+  color: #D97706;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.date-certs {
+  font-size: 12px;
+  color: #78350F;
+}
+
+/* =========================================================
    Responsive
    ========================================================= */
 
@@ -700,6 +850,7 @@ body {
 @media (max-width: 900px) {
   .welcome-grid { grid-template-columns: repeat(2, 1fr); }
   .navbar-links  { display: none; }
+  .certifications-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 768px) {
@@ -717,4 +868,7 @@ body {
 @media (max-width: 580px) {
   .welcome-grid    { grid-template-columns: 1fr; }
   .navbar-username { display: none; }
+  .certifications-grid { grid-template-columns: 1fr; }
+  .section-title { font-size: 24px; }
+  .retiring-dates { grid-template-columns: 1fr; }
 }
