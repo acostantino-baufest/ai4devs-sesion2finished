@@ -3,6 +3,46 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { fetchProtected } from '../services/authService'
 
+// Certification data for 2026 - static constant
+const CERTIFICATION_DATA_2026 = [
+  {
+    id: 1,
+    name: 'Cloud and AI Security Engineer Associate',
+    code: 'SC-500',
+    status: 'new',
+    description: 'New certification expanding Azure Security Engineer role to include cloud and AI model protection.',
+    availableDate: 'July 2026',
+    icon: 'shield'
+  },
+  {
+    id: 2,
+    name: 'Microsoft 365 Collaboration Communications Systems Engineer',
+    code: 'M365-CCSE',
+    status: 'updated',
+    description: 'Added for Microsoft Teams specialization to address retiring technical assessments.',
+    availableDate: 'Available now',
+    icon: 'users'
+  },
+  {
+    id: 3,
+    name: 'Copilot and Agent Administration Fundamentals',
+    code: 'Copilot-Admin',
+    status: 'new',
+    description: 'New intermediate skilling option for Modern Work Solutions Partner designation.',
+    availableDate: 'Available now',
+    icon: 'sparkles'
+  },
+  {
+    id: 4,
+    name: 'GitHub Certifications Suite',
+    code: 'GitHub-Suite',
+    status: 'updated',
+    description: 'GitHub Actions, Administration, Advanced Security, and Copilot certifications added to Digital & App Innovation specializations.',
+    availableDate: 'Available now',
+    icon: 'code'
+  }
+]
+
 export default function WelcomePage() {
   const { usuario, token, logout } = useAuth()
   const navigate = useNavigate()
@@ -10,46 +50,6 @@ export default function WelcomePage() {
   const [loading, setLoading] = useState(true)
   const [certifications, setCertifications] = useState([])
   const [certificationsLoading, setCertificationsLoading] = useState(true)
-
-  // Certification data for 2026
-  const certificationData = [
-    {
-      id: 1,
-      name: 'Cloud and AI Security Engineer Associate',
-      code: 'SC-500',
-      status: 'new',
-      description: 'New certification expanding Azure Security Engineer role to include cloud and AI model protection.',
-      availableDate: 'July 2026',
-      icon: 'shield'
-    },
-    {
-      id: 2,
-      name: 'Microsoft 365 Collaboration Communications Systems Engineer',
-      code: 'M365-CCSE',
-      status: 'updated',
-      description: 'Added for Microsoft Teams specialization to address retiring technical assessments.',
-      availableDate: 'Available now',
-      icon: 'users'
-    },
-    {
-      id: 3,
-      name: 'Copilot and Agent Administration Fundamentals',
-      code: 'Copilot-Admin',
-      status: 'new',
-      description: 'New intermediate skilling option for Modern Work Solutions Partner designation.',
-      availableDate: 'Available now',
-      icon: 'sparkles'
-    },
-    {
-      id: 4,
-      name: 'GitHub Certifications Suite',
-      code: 'GitHub-Suite',
-      status: 'updated',
-      description: 'GitHub Actions, Administration, Advanced Security, and Copilot certifications added to Digital & App Innovation specializations.',
-      availableDate: 'Available now',
-      icon: 'code'
-    }
-  ]
 
   const hour = new Date().getHours()
   const greeting =
@@ -68,9 +68,9 @@ export default function WelcomePage() {
   // Load certifications data
   useEffect(() => {
     // Simulate loading certifications (in real app, this could be from an API)
-    setCertifications(certificationData)
+    setCertifications(CERTIFICATION_DATA_2026)
     setCertificationsLoading(false)
-  }, [certificationData])
+  }, [])
 
   const handleLogout = () => {
     logout()
@@ -134,7 +134,7 @@ export default function WelcomePage() {
       case 'updated':
         return 'Actualizado'
       default:
-        return 'Available'
+        return 'Disponible'
     }
   }
 
