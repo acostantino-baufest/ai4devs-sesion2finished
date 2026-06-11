@@ -43,13 +43,69 @@ const CERTIFICATION_DATA_2026 = [
   }
 ]
 
+// Helper functions for certification rendering
+const getIconSvg = (iconType) => {
+  switch (iconType) {
+    case 'shield':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+      )
+    case 'users':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+      )
+    case 'sparkles':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 3v6m0 6v6M3 12h6m6 0h6" />
+        </svg>
+      )
+    case 'code':
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      )
+    default:
+      return null
+  }
+}
+
+const getIconColor = (status) => {
+  switch (status) {
+    case 'new':
+      return 'welcome-card-icon-green'
+    case 'updated':
+      return 'welcome-card-icon-blue'
+    default:
+      return 'welcome-card-icon-tertiary'
+  }
+}
+
+const getStatusBadgeText = (status) => {
+  switch (status) {
+    case 'new':
+      return 'Nuevo en 2026'
+    case 'updated':
+      return 'Actualizado'
+    default:
+      return 'Disponible'
+  }
+}
+
 export default function WelcomePage() {
   const { usuario, token, logout } = useAuth()
   const navigate = useNavigate()
   const [protectedData, setProtectedData] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [certifications, setCertifications] = useState([])
-  const [certificationsLoading, setCertificationsLoading] = useState(true)
 
   const hour = new Date().getHours()
   const greeting =
@@ -65,13 +121,6 @@ export default function WelcomePage() {
       .finally(() => setLoading(false))
   }, [token, logout, navigate])
 
-  // Load certifications data
-  useEffect(() => {
-    // Simulate loading certifications (in real app, this could be from an API)
-    setCertifications(CERTIFICATION_DATA_2026)
-    setCertificationsLoading(false)
-  }, [])
-
   const handleLogout = () => {
     logout()
     navigate('/login', { replace: true })
@@ -80,63 +129,6 @@ export default function WelcomePage() {
   const tokenPreview = token
     ? `${token.substring(0, 40)}...${token.substring(token.length - 10)}`
     : '—'
-
-  const getIconSvg = (iconType) => {
-    switch (iconType) {
-      case 'shield':
-        return (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          </svg>
-        )
-      case 'users':
-        return (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-          </svg>
-        )
-      case 'sparkles':
-        return (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 3v6m0 6v6M3 12h6m6 0h6" />
-          </svg>
-        )
-      case 'code':
-        return (
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="16 18 22 12 16 6" />
-            <polyline points="8 6 2 12 8 18" />
-          </svg>
-        )
-      default:
-        return null
-    }
-  }
-
-  const getIconColor = (status) => {
-    switch (status) {
-      case 'new':
-        return 'welcome-card-icon-green'
-      case 'updated':
-        return 'welcome-card-icon-blue'
-      default:
-        return 'welcome-card-icon-tertiary'
-    }
-  }
-
-  const getStatusBadgeText = (status) => {
-    switch (status) {
-      case 'new':
-        return 'Nuevo en 2026'
-      case 'updated':
-        return 'Actualizado'
-      default:
-        return 'Disponible'
-    }
-  }
 
   return (
     <div className="welcome-page">
@@ -284,7 +276,7 @@ export default function WelcomePage() {
           </div>
 
           <div className="certifications-grid">
-            {!certificationsLoading && certifications.map((cert) => (
+            {CERTIFICATION_DATA_2026.map((cert) => (
               <div key={cert.id} className="card certification-card">
                 <div className={`welcome-card-icon-wrap ${getIconColor(cert.status)}`}>
                   {getIconSvg(cert.icon)}
